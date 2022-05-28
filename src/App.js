@@ -336,7 +336,7 @@ function App() {
         const signer = provider.getSigner();
         const shipAgentContract = new ethers.Contract(contractAddress, contractABI, signer);
 
-        let dues = ((0.169323+0.08063)*currentShipNetTonnage/1000000).toFixed(8);
+        let dues = (((0.169323+0.08063)*currentShipNetTonnage+500)/1000000).toFixed(8);
 
         if (customerTotalBalance >= dues ) {
           window.alert("You have enough money.  The dues will be deducted from your balance.");
@@ -425,7 +425,7 @@ function App() {
           <p><span className="font-bold">Registered Net Tonnage: </span>{Math.round(currentShipNetTonnage).toLocaleString('en-US')}</p>
         </div>
         <div className="mt-5">
-          <p><span className="font-bold">Dues (ETH): </span>{((0.169323+0.08063)*currentShipNetTonnage/1000000).toFixed(8)}</p>
+          <p><span className="font-bold">Dues (ETH): </span>{(((0.169323+0.08063)*currentShipNetTonnage+500)/1000000).toFixed(8)}</p>
         </div>
         <div className="mt-5">
           <p><span className="font-bold">Customer Balance (ETH): </span>{customerTotalBalance}</p>

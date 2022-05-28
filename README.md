@@ -31,7 +31,7 @@ For simplicity, I will also exclude:
 The "dues" are calculated as follows:
 - Light Dues: `0.169323 x vessel’s NT`
 - Salvage Dues: `0.08063 x vessel's NT`
-- Agency Dues: flatt fee of 500 USD
+- Agency Dues: flat fee of 500 USD
 
 The number will generally be under $50,000 but since we are testing and we are limited by a budget of up to 0.1 ETH, in our fictional scenario, we'll divide the calculated dues by 100,000 to get a value in ETH that will always be under 0.1 ETH.
 
