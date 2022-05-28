@@ -132,15 +132,20 @@ function App() {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const signer = provider.getSigner();
         const shipAgentContract = new ethers.Contract(contractAddress, contractABI, signer);
-
-        // setShipIMONumber function in the shipAgentContract smart contract is accessed to set the IMO number
-        const txn = await shipAgentContract.setShipIMONumber(utils.formatBytes32String(inputValue.shipIMONumber));
-        console.log("Setting IMO Number to:", inputValue.shipIMONumber);
-        await txn.wait();
-        console.log("IMO Number is set to:", inputValue.shipIMONumber, " TXN:", txn.hash);
-
-        // Once the IMO Number is changed, getShipIMONumber() is called.
-        getShipIMONumber();
+        
+        // Check if IMO number is in correct format
+        if (inputValue.shipIMONumber.length==9) {
+          // setShipIMONumber function in the shipAgentContract smart contract is accessed to set the IMO number
+          const txn = await shipAgentContract.setShipIMONumber(utils.formatBytes32String(inputValue.shipIMONumber));
+          console.log("Setting IMO Number to:", inputValue.shipIMONumber);
+          await txn.wait();
+          console.log("IMO Number is set to:", inputValue.shipIMONumber, " TXN:", txn.hash);
+  
+          // Once the IMO Number is changed, getShipIMONumber() is called.
+          getShipIMONumber();
+        } else { 
+          window.alert("IMO Number must be 9 digits long.");
+        }
       } else {
         console.log("Ethereum object not found, install Metamask.");
         setError("Please install a MetaMask wallet to use our agency.");
@@ -187,6 +192,8 @@ function App() {
         const signer = provider.getSigner();
         const shipAgentContract = new ethers.Contract(contractAddress, contractABI, signer);
 
+        // Check if net tonnage is minimum 800
+        if (inputValue.shipNetTonnage >= 800) {
         // setShipNetTonnage function in the shipAgentContract smart contract is accessed to set the net tonnage
         const txn = await shipAgentContract.setShipNetTonnage(utils.formatBytes32String(inputValue.shipNetTonnage));
         console.log("Setting Net Tonnage to:", inputValue.shipNetTonnage);
@@ -195,6 +202,9 @@ function App() {
 
         // Once the net tonnage is changed, getShipNetTonnage() is called.
         getShipNetTonnage();
+        } else { 
+          window.alert("Minimum net tonnage must be 800.");
+        }
       } else {
         console.log("Ethereum object not found, install Metamask.");
         setError("Please install a MetaMask wallet to use our agency.");
@@ -367,7 +377,7 @@ function App() {
       <section className="customer-section px-10 pt-5 pb-10">
       <p>This is a DApp that's supposed to emulate payment of ship agents when crossing the Bosphorus.</p>
       <br></br>
-      <p>User must record the vessel's IMO number and net tonnage.  Dues will be calculated based on the net tonnage.  For simplicity, only the Light Dues and Salvage Dues are calculated (in USD) and divided by 100,000 to get a number in ETH that's less than 0.1.</p>
+      <p>User must record the vessel's IMO number (9 digit unique identifier for ships) and net tonnage (minimum 800 for the scope of this app).  Dues will be calculated based on the net tonnage.  For simplicity, only the Light Dues and Salvage Dues are calculated (in USD) and divided by 100,000 to get a number in ETH that's less than 0.1.</p>
       <br></br>
       <p>User must deposit money more than the dues before the user can request clearance for transit.</p>
         {error && <p className="text-2xl text-red-700">{error}</p>}
@@ -380,7 +390,7 @@ function App() {
         <div className="mt-7 mb-9">
           <form className="form-style">
             <input
-              type="text"
+              type="number"
               className="input-style"
               onChange={handleInputChange}
               name="shipIMONumber"
@@ -395,11 +405,12 @@ function App() {
         <div className="mt-10 mb-10">
           <form className="form-style">
             <input
-              type="text"
+              type="number"
               className="input-style"
               onChange={handleInputChange}
               name="shipNetTonnage"
-              placeholder="NT (minimum 800)"
+              placeholder={800}
+              min={800}
               value={inputValue.shipNetTonnage}
             />
             <button
