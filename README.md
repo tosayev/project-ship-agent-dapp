@@ -1,5 +1,5 @@
 # Bosphorus Transit Agency Smart Contract DApp
-This is a dapp that allows interaction with the bosphorus transit agency smart contract ([contract on Etherscan](https://rinkeby.etherscan.io/address/0x4b952eA529aEd03E40aDB4a0b04776b9B68d07E7), [code on GitHub](https://github.com/tosayev/project-ship-agent-smartcontract).
+This is a dapp that allows interaction with the bosphorus transit agency smart contract ([contract on Etherscan](https://rinkeby.etherscan.io/address/0x4b952eA529aEd03E40aDB4a0b04776b9B68d07E7), [code on GitHub](https://github.com/tosayev/project-ship-agent-smartcontract)).
 
 ## To Install
 
